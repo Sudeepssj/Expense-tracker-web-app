@@ -1,0 +1,21 @@
+{% for expense in expenses %}
+<tr>
+    <td>{{ expense.date|date:"M d, Y" }}</td>
+    <td><span class="badge bg-secondary">{{ expense.category.name }}</span></td>
+    <td class="text-danger">₹ {{ expense.amount }}</td>
+    <td>{{ expense.description }}</td>
+    <td>
+        <form method="post" action="{% url 'expense_delete_post' %}">
+            {% csrf_token %}
+            <input type="hidden" name="expense_id" value="{{ expense.id }}">
+            <button class="btn btn-outline-danger btn-sm">Delete</button>
+        </form>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="5" class="text-center text-muted py-4">
+        No expenses found
+    </td>
+</tr>
+{% endfor %}

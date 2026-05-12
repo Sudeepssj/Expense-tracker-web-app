@@ -27,14 +27,24 @@
         <div class="col-md-4">
           <label class="form-label">Month</label>
           <select name="month" class="form-select">
-              <option value="">-- Select Month --</option>
-              {% for m in months %}
-                  <option value="{{ m }}" {% if month and month == m %}selected{% endif %}>
-                      {{ m }}
-                  </option>
-              {% endfor %}
+            <option value="">-- Select Month --</option>
+            {% for m in months %}
+            <option
+              value="{{ m }}"
+              {%
+              if
+              month
+              and
+              month=""
+              ="m"
+              %}selected{%
+              endif
+              %}
+            >
+              {{ m }}
+            </option>
+            {% endfor %}
           </select>
-
         </div>
 
         <div class="col-md-4 d-grid">
@@ -49,7 +59,7 @@
     <div class="col-md-4 mx-auto">
       <div class="card text-center shadow-sm">
         <div class="card-body">
-          <h6 class="text-muted">Total Spent</h6>
+          <h6>Total Spent</h6>
           <h3 class="text-danger fw-bold">₹ {{ total_amount }}</h3>
         </div>
       </div>
@@ -102,7 +112,8 @@
       <div class="card shadow-sm text-center">
         <div class="card-header fw-semibold">Expense Distribution</div>
         <div class="card-body">
-          {{ labels|json_script:"labels-data" }} {{ data|json_script:"values-data" }}
+          <!-- keep this line in one line or you will see error and wont see the chart -->
+          {{ labels|json_script:"labels-data" }} {{ data|json_script:"values-data" }}   
           <div class="text-end mb-2">
             <button class="btn btn-sm btn-outline-secondary" id="toggleChart">
               Switch to Bar Chart
@@ -110,10 +121,8 @@
           </div>
 
           <div class="chart-container">
-              <canvas id="expenseChart"></canvas>
+            <canvas id="expenseChart"></canvas>
           </div>
-
-
         </div>
       </div>
     </div>
@@ -142,64 +151,64 @@
   const ctx = document.getElementById("expenseChart");
 
   function createChart(labels, values) {
-
     if (expenseChart) {
-        expenseChart.destroy();
+      expenseChart.destroy();
     }
 
     expenseChart = new Chart(ctx, {
-        type: chartType,
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Amount",
-                data: values,
-                backgroundColor: [
-                    "#ff6384",
-                    "#36a2eb",
-                    "#ffce56",
-                    "#4caf50",
-                    "#9c27b0",
-                    "#ff9800",
-                ],
-            }],
+      type: chartType,
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Amount",
+            data: values,
+            backgroundColor: [
+              "#ff6384",
+              "#36a2eb",
+              "#ffce56",
+              "#4caf50",
+              "#9c27b0",
+              "#ff9800",
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // 🔥 IMPORTANT
+        plugins: {
+          legend: {
+            display: chartType === "pie",
+            position: "top",
+          },
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,  // 🔥 IMPORTANT
-            plugins: {
-                legend: {
-                    display: chartType === "pie",
-                    position: "top"
-                }
-            },
-            scales: chartType === "bar" ? {
+        scales:
+          chartType === "bar"
+            ? {
                 y: {
-                    beginAtZero: true
-                }
-            } : {}
-        },
+                  beginAtZero: true,
+                },
+              }
+            : {},
+      },
     });
-}
-
+  }
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
+  document.addEventListener("DOMContentLoaded", function () {
     const labelsElement = document.getElementById("labels-data");
     const valuesElement = document.getElementById("values-data");
 
     if (labelsElement && valuesElement) {
-        const labels = JSON.parse(labelsElement.textContent);
-        const values = JSON.parse(valuesElement.textContent);
+      const labels = JSON.parse(labelsElement.textContent);
+      const values = JSON.parse(valuesElement.textContent);
 
-        createChart(labels, values);
+      createChart(labels, values);
     }
-
-});
+  });
 </script>
-
 
 <!-- Add Count-Up Animation -->
 <script>
@@ -275,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // ⚠ IMPORTANT — update only summary table body
-        $(".card-body table tbody").html(tableRows);
+        $("table tbody").html(tableRows);
       },
     );
   });

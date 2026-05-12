@@ -253,7 +253,8 @@ $("#saveEdit").click(function () {
           data-id="${id}"
           data-category="${$("#edit_category").val()}"
           data-amount="${res.amount}"
-          data-date="${$("#edit_date").val()}"
+          data-date="${res.raw_date || $("#edit_date").val()}"
+
           data-description="${res.description}"
           data-bs-toggle="modal"
           data-bs-target="#editModal">

@@ -293,14 +293,14 @@ body {
     border-color: #3a3a3a;
 }
 .dark-mode .card h6 {
-    color: #bbbbbb;
+    color: rgb(21 122 222 / 75%);
 }
 
 .dark-mode .text-danger {
     color: #ff5c5c !important;
 }
 .dark-mode .card h6 {
-    color: #bbbbbb;
+    color: rgb(21 122 222 / 75%);
 }
 
 .dark-mode .text-danger {
